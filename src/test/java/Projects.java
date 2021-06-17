@@ -9,38 +9,33 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class Projects {
-
-    @BeforeMethod(onlyForGroups = "createProject")
-    public void createProjects() {
-        //create project
+    ApiRequest apiRequest = new ApiRequest();
+    @BeforeMethod
+    public void setGeneralConfig() {
+        apiRequest = new ApiRequest();
+        apiRequest.addHeader("X-TrackerToken", "599e3817e376dc26345552c4aa198143");
+        apiRequest.setBaseUri("https://www.pivotaltracker.com/services/v5");
     }
 
     @Test
-    public void getAllProjectTest() {
-        ApiRequest apiRequest = new ApiRequest();
-        apiRequest.setToken("5703275f22fce7ac417a198be65764263fd0bf6b");
-        apiRequest.setBaseUri("https://api.todoist.com/rest/v1");
+    public void getAllProjects() {
         apiRequest.setEndpoint("/projects");
         apiRequest.setMethod(ApiMethod.GET);
 
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Assert.assertEquals(apiResponse.getStatusCode(), 200);
+        int expected = 200;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual, expected);
     }
-
-    @Test(groups = "createProject")
-    public void getProjectTest() {
-        ApiRequest apiRequest = new ApiRequest();
-        apiRequest.setToken("5703275f22fce7ac417a198be65764263fd0bf6b");
-        apiRequest.setBaseUri("https://api.todoist.com/rest/v1");
-        apiRequest.setEndpoint("/projects/{projectId}");
+    @Test
+    public void getAccount() {
+        apiRequest.setEndpoint("/accounts/{account_id}");
         apiRequest.setMethod(ApiMethod.GET);
-        apiRequest.addPathParam("projectId", "2212086923");
+        apiRequest.addPathParam("account_id","1155196");
 
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Project project = apiResponse.getBody(Project.class);
-        System.out.println("---"+project.getName());
-        Assert.assertEquals(apiResponse.getStatusCode(), 200);
-        Assert.assertEquals(project.getColor(), 48);
-        apiResponse.validateBodySchema("schemas/project.json");
+        int expected = 200;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual, expected);
     }
 }
