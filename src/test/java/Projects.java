@@ -6,22 +6,8 @@ import entities.Project;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class Projects {
+public class Projects extends ProjectBases{
 
-    static ApiRequest apiRequest = new ApiRequest();
-    public Project project;
-
-    @BeforeTest
-    public void setGeneralConfig() {
-        apiRequest.addHeader("X-TrackerToken", "599e3817e376dc26345552c4aa198143");
-        apiRequest.setBaseUri("https://www.pivotaltracker.com/services/v5");
-    }
-    @BeforeMethod(onlyForGroups = "getAProject")
-    public void getAProjectsConfig() {
-        apiRequest.setEndpoint("/projects/{project_id}");
-        apiRequest.setMethod(ApiMethod.GET);
-        apiRequest.addPathParam("project_id", "2505284");
-    }
     @Test
     public void ItShouldGetAllProjectOKStatusCode() {
         apiRequest.setEndpoint("/projects");
@@ -76,14 +62,6 @@ public class Projects {
         String actual = project.getName();
         Assert.assertEquals(actual,expected);
     }
-    @AfterMethod(onlyForGroups = "CreateAProject")
-    public void CleanCreatedProject() {
-        apiRequest.setEndpoint("/projects/{project_id}");
-        apiRequest.setBody("");
-        apiRequest.addPathParam("project_id",project.getId());
-        apiRequest.setMethod(ApiMethod.DELETE);
-        ApiResponse apiResponse = ApiManager.execute(apiRequest);
-    }
     @Test
     public void shouldReturnBadRequestForInvalidProjectBody(){
         apiRequest.setEndpoint("/projects");
@@ -104,15 +82,6 @@ public class Projects {
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual,expected);
     }
-    @BeforeMethod(onlyForGroups = "DeleteAProject")
-    public void deleteProjectsConfig() {
-        apiRequest.setEndpoint("/projects");
-        apiRequest.setBody("{\"name\":\"ThisWillBeDeleted\"}");
-        apiRequest.setMethod(ApiMethod.POST);
-        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
-        project = apiResponse.getBody(Project.class);
-    }
-
     @Test(groups = "DeleteAProject")
     public void deleteAProject(){
         apiRequest.setEndpoint("/projects/{project_id}");
@@ -124,11 +93,7 @@ public class Projects {
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual,expected);
     }
-    @AfterMethod
-    public void CleanObjects(){
-        project = new Project();
-        apiRequest.clearPathParms();
-    }
+
     @Test
     public void ShouldReturnNotFoundForIncorrectProjectID(){
         apiRequest.setEndpoint("/projects/{project_id}");
