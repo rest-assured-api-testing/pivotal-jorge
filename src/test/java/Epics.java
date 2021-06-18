@@ -17,7 +17,7 @@ public class Epics {
         apiRequest.setBaseUri("https://www.pivotaltracker.com/services/v5");
     }
     @BeforeMethod(onlyForGroups = "getAEpic")
-    public void getAProjectsConfig() {
+    public void getAEpicConfig() {
         apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("epic_id", "4790780");
@@ -32,14 +32,14 @@ public class Epics {
         Assert.assertEquals(actual, expected);
     }
     @Test(groups = "getAEpic")
-    public void ItShouldVerifyJsonSchema() {
+    public void ItShouldVerifyEpicJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Epic epic = apiResponse.getBody(Epic.class);
         apiResponse.validateBodySchema("schemas/epic.json");
 
     }
     @Test(groups = "getAEpic")
-    public void ItShouldVerifyProjectName() {
+    public void ItShouldVerifyEpicName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Epic epic = apiResponse.getBody(Epic.class);
         String expected = "Test Epic";
@@ -47,7 +47,7 @@ public class Epics {
         Assert.assertEquals(actual,expected);
     }
     @Test(groups = "CreateAEpic")
-    public void CreateAProject() {
+    public void CreateAEpic() {
         apiRequest.setEndpoint("/projects/2505284/epics");
         apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -58,7 +58,7 @@ public class Epics {
         Assert.assertEquals(actual,expected);
     }
     @AfterMethod(onlyForGroups = "CreateAEpic")
-    public void CleanCreatedProject() {
+    public void CleanCreatedEpic() {
         apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("epic_id", epic.getId());
@@ -66,7 +66,7 @@ public class Epics {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
     }
     @BeforeMethod(onlyForGroups = "DeleteAEpic")
-    public void deleteProjectsConfig() {
+    public void deleteEpicsConfig() {
         apiRequest.setEndpoint("/projects/2505284/epics");
         apiRequest.setBody("{\"name\":\"ThisEpicWillBeDeleted\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -75,7 +75,7 @@ public class Epics {
     }
 
     @Test(groups = "DeleteAEpic")
-    public void deleteAProject(){
+    public void deleteAEpic(){
         apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("epic_id", epic.getId());
