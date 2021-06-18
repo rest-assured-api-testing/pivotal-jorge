@@ -31,6 +31,26 @@ public class WorkSpacesTest {
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
+    @Test
+    public void ItShouldReturnNotFoundForInvalidWorkSpaceID() {
+        apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
+        apiRequest.setMethod(ApiMethod.GET);
+        apiRequest.addPathParam("workspace_id", "abcd123");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void ItShouldReturnNotFoundForInvalidWorkSpaceEndpoint() {
+        apiRequest.setEndpoint("/my/workespaces/{workspace_id}");
+        apiRequest.setMethod(ApiMethod.GET);
+        apiRequest.addPathParam("workspace_id", "4790780");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
     @Test(groups = "getAWorkSpace")
     public void ItShouldVerifyWorkSpaceJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -64,6 +84,26 @@ public class WorkSpacesTest {
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
     }
+    @Test
+    public void shouldReturnBadRequestForInvalidWorkSpaceBody(){
+        apiRequest.setEndpoint("/my/workspaces");
+        apiRequest.setBody("\"name\":\"CreatedEpic\"");
+        apiRequest.setMethod(ApiMethod.POST);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 400;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnNotFoundForInvalidWorkSpaceEndPoint(){
+        apiRequest.setEndpoint("/my/workespaces");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
+        apiRequest.setMethod(ApiMethod.POST);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
     @BeforeMethod(onlyForGroups = "DeleteAWorkSpace")
     public void deleteProjectsConfig() {
         apiRequest.setEndpoint("/my/workspaces");
@@ -88,5 +128,27 @@ public class WorkSpacesTest {
     public void CleanObjects(){
         workSpaces = new WorkSpaces();
         apiRequest.clearPathParms();
+    }
+    @Test
+    public void ShouldReturnNotFoundForIncorrectEpicID(){
+        apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
+        apiRequest.setBody("");
+        apiRequest.addPathParam("workspace_id", "asdasdas");
+        apiRequest.setMethod(ApiMethod.DELETE);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void ShouldReturnNotFoundForIncorrectWorkSpaceEndpoint(){
+        apiRequest.setEndpoint("/my/workespaces/{workspace_id}");
+        apiRequest.setBody("");
+        apiRequest.addPathParam("workspace_id", "100");
+        apiRequest.setMethod(ApiMethod.DELETE);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
     }
 }
