@@ -18,6 +18,18 @@ public class ApiRequest {
     private Map<String, String> queryParams;
     private Map<String, String> pathParms;
 
+    public void clearHeaders() {
+        headers.clear();
+    }
+
+    public void clearQueryParams() {
+        queryParams.clear();
+    }
+
+    public void clearPathParms() {
+        pathParms.clear();
+    }
+
     public ApiRequest() {
         headers = new ArrayList<>();
         queryParams = new HashMap<>();

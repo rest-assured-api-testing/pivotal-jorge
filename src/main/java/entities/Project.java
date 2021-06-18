@@ -1,42 +1,72 @@
 package entities;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({"name"})
 public class Project {
-    private int id;
+
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonIgnore
+    private String id;
+    @JsonIgnore
     private String kind;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String name;
+    @JsonIgnore
     private int version;
+    @JsonIgnore
     private int iteration_length;
+    @JsonIgnore
     private String week_start_day;
+    @JsonIgnore
     private String point_scale;
+    @JsonIgnore
     private boolean point_scale_is_custom;
+    @JsonIgnore
     private boolean bugs_and_chores_are_estimatable;
+    @JsonIgnore
     private boolean automatic_planning;
+    @JsonIgnore
     private boolean enable_tasks;
+    @JsonIgnore
     private TimeZone time_zone;
+    @JsonIgnore
     private int velocity_averaged_over;
+    @JsonIgnore
     private int number_of_done_iterations_to_show;
+    @JsonIgnore
     private boolean has_google_domain;
+    @JsonIgnore
     private boolean enable_incoming_emails;
+    @JsonIgnore
     private int initial_velocity;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private boolean publicc;
+    @JsonIgnore
     private boolean atom_enabled;
+    @JsonIgnore
     private String project_type;
+    @JsonIgnore
     private String start_time;
+    @JsonIgnore
     private String created_at;
+    @JsonIgnore
     private String updated_at;
+    @JsonIgnore
     private int account_id;
+    @JsonIgnore
     private int current_iteration_number;
+    @JsonIgnore
     private boolean enable_following;
 
-    public int getId() {
+    @JsonProperty("id")
+    public String getId() {
         return id;
     }
-
-    public void setId(int id) {
+    @JsonProperty("id")
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -169,7 +199,7 @@ public class Project {
     }
 
     @JsonProperty("public")
-    public boolean isPublicc() {
+    public boolean getPublicc() {
         return publicc;
     }
 

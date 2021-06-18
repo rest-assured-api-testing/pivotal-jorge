@@ -2,82 +2,83 @@ import api.ApiManager;
 import api.ApiMethod;
 import api.ApiRequest;
 import api.ApiResponse;
-import entities.Project;
+import entities.Epic;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class Projects {
+public class Epics {
 
     static ApiRequest apiRequest = new ApiRequest();
-    public Project project;
+    public Epic epic;
 
     @BeforeTest
     public void setGeneralConfig() {
         apiRequest.addHeader("X-TrackerToken", "599e3817e376dc26345552c4aa198143");
         apiRequest.setBaseUri("https://www.pivotaltracker.com/services/v5");
     }
-    @BeforeMethod(onlyForGroups = "getAProject")
+    @BeforeMethod(onlyForGroups = "getAEpic")
     public void getAProjectsConfig() {
-        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setMethod(ApiMethod.GET);
-        apiRequest.addPathParam("project_id", "2505284");
+        apiRequest.addPathParam("epic_id", "4790780");
     }
     @Test
-    public void ItShouldGetAllProjectOKStatusCode() {
-        apiRequest.setEndpoint("/projects");
+    public void ItShouldGetAllEpicsOKStatusCode() {
+        apiRequest.setEndpoint("/projects/2505284");
         apiRequest.setMethod(ApiMethod.GET);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 200;
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
-    @Test(groups = "getAProject")
+    @Test(groups = "getAEpic")
     public void ItShouldVerifyJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Project project = apiResponse.getBody(Project.class);
-        apiResponse.validateBodySchema("schemas/project.json");
+        Epic epic = apiResponse.getBody(Epic.class);
+        apiResponse.validateBodySchema("schemas/epic.json");
+
     }
-    @Test(groups = "getAProject")
+    @Test(groups = "getAEpic")
     public void ItShouldVerifyProjectName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Project project = apiResponse.getBody(Project.class);
-        String expected = "Project";
-        String actual = project.getName();
+        Epic epic = apiResponse.getBody(Epic.class);
+        String expected = "Test Epic";
+        String actual = epic.getName();
         Assert.assertEquals(actual,expected);
     }
-    @Test(groups = "CreateAProject")
+    @Test(groups = "CreateAEpic")
     public void CreateAProject() {
-        apiRequest.setEndpoint("/projects");
-        apiRequest.setBody("{\"name\":\"CreatedProject\"}");
+        apiRequest.setEndpoint("/projects/2505284/epics");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
-        project = apiResponse.getBody(Project.class);
-        String expected = "CreatedProject";
-        String actual = project.getName();
+        epic = apiResponse.getBody(Epic.class);
+        String expected = "CreatedEpic";
+        String actual = epic.getName();
         Assert.assertEquals(actual,expected);
     }
-    @AfterMethod(onlyForGroups = "CreateAProject")
+    @AfterMethod(onlyForGroups = "CreateAEpic")
     public void CleanCreatedProject() {
-        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setBody("");
-        apiRequest.addPathParam("project_id",project.getId());
+        apiRequest.addPathParam("epic_id", epic.getId());
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
     }
-    @BeforeMethod(onlyForGroups = "DeleteAProject")
+    @BeforeMethod(onlyForGroups = "DeleteAEpic")
     public void deleteProjectsConfig() {
-        apiRequest.setEndpoint("/projects");
-        apiRequest.setBody("{\"name\":\"ThisWillBeDeleted\"}");
+        apiRequest.setEndpoint("/projects/2505284/epics");
+        apiRequest.setBody("{\"name\":\"ThisEpicWillBeDeleted\"}");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
-        project = apiResponse.getBody(Project.class);
+        epic = apiResponse.getBody(Epic.class);
     }
 
-    @Test(groups = "DeleteAProject")
+    @Test(groups = "DeleteAEpic")
     public void deleteAProject(){
-        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setBody("");
-        apiRequest.addPathParam("project_id",project.getId());
+        apiRequest.addPathParam("epic_id", epic.getId());
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 204;
@@ -86,7 +87,7 @@ public class Projects {
     }
     @AfterMethod
     public void CleanObjects(){
-        project = new Project();
+        epic = new Epic();
         apiRequest.clearPathParms();
     }
 }
