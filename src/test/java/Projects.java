@@ -31,6 +31,26 @@ public class Projects {
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
+    @Test
+    public void ShouldReturnNotFoundForInvalidProjectID() {
+        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setMethod(ApiMethod.GET);
+        apiRequest.addPathParam("project_id", "abc123");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual, expected);
+    }
+    @Test
+    public void ShouldReturnNotFoundForInvalidProjectEndpoint() {
+        apiRequest.setEndpoint("/projectos/{project_id}");
+        apiRequest.setMethod(ApiMethod.GET);
+        apiRequest.addPathParam("project_id", "2505284");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual, expected);
+    }
     @Test(groups = "getAProject")
     public void ItShouldVerifyJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -64,6 +84,26 @@ public class Projects {
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
     }
+    @Test
+    public void shouldReturnBadRequestForInvalidProjectBody(){
+        apiRequest.setEndpoint("/projects");
+        apiRequest.setBody("\"name\":\"CreatedProject\"");
+        apiRequest.setMethod(ApiMethod.POST);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 400;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnNotFoundForInvalidProjectID(){
+        apiRequest.setEndpoint("/projectos");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
+        apiRequest.setMethod(ApiMethod.POST);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
     @BeforeMethod(onlyForGroups = "DeleteAProject")
     public void deleteProjectsConfig() {
         apiRequest.setEndpoint("/projects");
@@ -88,5 +128,27 @@ public class Projects {
     public void CleanObjects(){
         project = new Project();
         apiRequest.clearPathParms();
+    }
+    @Test
+    public void ShouldReturnNotFoundForIncorrectProjectID(){
+        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setBody("");
+        apiRequest.addPathParam("project_id", "asdasdas");
+        apiRequest.setMethod(ApiMethod.DELETE);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void ShouldReturnNotFoundForIncorrectProjectEndpoint(){
+        apiRequest.setEndpoint("/projectos/{project_id}");
+        apiRequest.setBody("");
+        apiRequest.addPathParam("project_id", "100");
+        apiRequest.setMethod(ApiMethod.DELETE);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
     }
 }
