@@ -24,7 +24,7 @@ public class Epics {
     }
     @Test
     public void ItShouldGetAllEpicsOKStatusCode() {
-        apiRequest.setEndpoint("/projects/2505284");
+        apiRequest.setEndpoint("/projects/2505284/epics");
         apiRequest.setMethod(ApiMethod.GET);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 200;
