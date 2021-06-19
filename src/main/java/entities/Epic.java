@@ -11,7 +11,7 @@ public class Epic {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String name;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private EpicLabel label;
+    private Label label;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String created_at;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -51,11 +51,11 @@ public class Epic {
         this.name = name;
     }
 
-    public EpicLabel getLabel() {
+    public Label getLabel() {
         return label;
     }
 
-    public void setLabel(EpicLabel label) {
+    public void setLabel(Label label) {
         this.label = label;
     }
 

@@ -1,11 +1,19 @@
 package entities;
 
-public class EpicLabel {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+public class Label {
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public String kind;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public String id;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public String project_id;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public String name;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public String created_at;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public String updated_at;
 
     public String getKind() {

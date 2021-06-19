@@ -34,4 +34,13 @@ public class ApiManager {
 
         return new ApiResponse(response);
     }
+    public static ApiResponse executeWithUserPassword(ApiRequest apiRequest){
+        Response response = buildRequest(apiRequest)
+                .auth()
+                .basic(apiRequest.getUserName(),apiRequest.getPassword())
+                .request(apiRequest.getMethod().name()
+                        ,apiRequest.getEndpoint());
+
+        return new ApiResponse(response);
+    }
 }

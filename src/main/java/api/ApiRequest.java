@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ApiRequest {
+    private String userName;
+    private String password;
     private String baseUri;
     private String endpoint;
     private String body;
@@ -17,6 +19,22 @@ public class ApiRequest {
     private List<Header> headers;
     private Map<String, String> queryParams;
     private Map<String, String> pathParms;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public void clearHeaders() {
         headers.clear();
