@@ -22,7 +22,7 @@ public class WorkSpacesBases extends TestBases {
     public WorkSpaces workSpaces;
 
     @BeforeMethod(onlyForGroups = "getAWorkSpace")
-    public void getAProjectsConfig() {
+    public void getAWorkSpaceConfig() {
         apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("workspace_id", "876161");
@@ -38,7 +38,7 @@ public class WorkSpacesBases extends TestBases {
     }
 
     @BeforeMethod(onlyForGroups = "DeleteAWorkSpace")
-    public void deleteProjectsConfig() {
+    public void deleteWorkSpaceConfig() {
         apiRequest.setEndpoint("/my/workspaces");
         apiRequest.setBody("{\"name\":\"WorkSpaceToBeDeleted\",\"project_ids\":[2505284]}");
         apiRequest.setMethod(ApiMethod.POST);

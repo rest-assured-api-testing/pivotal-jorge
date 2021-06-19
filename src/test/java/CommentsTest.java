@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class CommentsTest extends CommentsBases {
     @Test
-    public void ItShouldGetAllStoriesOKStatusCode() {
+    public void ItShouldGetAllCommentsOKStatusCode() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments");
         apiRequest.setMethod(ApiMethod.GET);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -18,7 +18,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test(groups = "getAComment")
-    public void ItShouldVerifyStoryJsonSchema() {
+    public void ItShouldVerifyCommentJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Comments comments = apiResponse.getBody(Comments.class);
         apiResponse.validateBodySchema("schemas/comments.json");
@@ -26,7 +26,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test(groups = "getAComment")
-    public void ItShouldVerifyStoryName() {
+    public void ItShouldVerifyCommentText() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Comments comments = apiResponse.getBody(Comments.class);
         String expected = "If this is a consular ship, then where is the ambassador \uD83D\uDC45?";
@@ -35,7 +35,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test(groups = "updateComment")
-    public void UpdateAEpic() {
+    public void UpdateAComment() {
         apiRequest.setBody("{\"text\":\"I´m an updated comment\"}");
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         comments = apiResponse.getBody(Comments.class);
@@ -45,7 +45,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidBodyUpdateStory() {
+    public void shouldReturnBadRequestForInvalidBodyForUpdateComment() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments/{comment_id}");
         apiRequest.addPathParam("comment_id", "225009376");
         apiRequest.setBody("{\"text\":\"\"}");
@@ -57,7 +57,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void shouldReturnNotFoundForInvalidBodyUpdateStory() {
+    public void shouldReturnNotFoundForInvalidBodyForUpdateComment() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comentario/{comment_id}");
         apiRequest.addPathParam("comment_id", "225009376");
         apiRequest.setBody("{\"text\":\"goodComment\"}");
@@ -69,7 +69,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void ItShouldReturnBatRequestForInvalidStoryID() {
+    public void ItShouldReturnBatRequestForInvalidCommentID() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments/{comment_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("comment_id", "abc123");
@@ -80,7 +80,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void ItShouldReturnNotFoundForInvalidStoryEndpoint() {
+    public void ItShouldReturnNotFoundForInvalidCommentEndpoint() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comentarios/{comment_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("comment_id", "225009369");
@@ -91,7 +91,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test(groups = "CreateComment")
-    public void CreateAStory() {
+    public void CreateAComment() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments");
         apiRequest.setBody("{\"text\":\"Created comment\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -103,7 +103,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidStoryBody() {
+    public void shouldReturnBadRequestForInvalidCommentBody() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments");
         apiRequest.setBody("{\"text\":\"\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -114,7 +114,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void shouldReturnNotFoundForInvalidStoryID() {
+    public void shouldReturnNotFoundForInvalidCommentID() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comentarios");
         apiRequest.setBody("{\"text\":\"goodComment\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -125,7 +125,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test(groups = "DeleteComment")
-    public void deleteAStory() {
+    public void deleteAComment() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments/{comment_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("comment_id", comments.getId());
@@ -137,7 +137,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void ShouldReturnBadRequestForIncorrectStoryID() {
+    public void ShouldReturnBadRequestForIncorrectCommentID() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments/{comment_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("comment_id", "abcd123");
@@ -149,7 +149,7 @@ public class CommentsTest extends CommentsBases {
     }
 
     @Test
-    public void ShouldReturnNotFoundForIncorrectStoryEndpoint() {
+    public void ShouldReturnNotFoundForIncorrectCommentEndpoint() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comentarios/{comment_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("comment_id", "225009376");

@@ -47,7 +47,7 @@ public class StoryTest extends StoryBases {
     }
 
     @Test(groups = "updateAStory")
-    public void UpdateAEpic() {
+    public void UpdateAStory() {
         apiRequest.setBody("{\"name\":\"CreatedStory\"}");
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         story = apiResponse.getBody(Story.class);

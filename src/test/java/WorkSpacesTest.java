@@ -102,7 +102,7 @@ public class WorkSpacesTest extends WorkSpacesBases {
     }
 
     @Test(groups = "DeleteAWorkSpace")
-    public void deleteAProject() {
+    public void deleteAWorkSpace() {
         apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("workspace_id", workSpaces.getId());
@@ -114,7 +114,7 @@ public class WorkSpacesTest extends WorkSpacesBases {
     }
 
     @Test
-    public void ShouldReturnNotFoundForIncorrectEpicID() {
+    public void ShouldReturnNotFoundForIncorrectWorkSpaceID() {
         apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("workspace_id", "asdasdas");

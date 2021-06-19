@@ -58,7 +58,7 @@ public class LabelTest extends LabelBases {
     }
 
     @Test
-    public void ItShouldReturnNotFoundForInvalidEpicEndpoint() {
+    public void ItShouldReturnNotFoundForInvalidLabelEndpoint() {
         apiRequest.setEndpoint("projects/2505284/labeles/{label_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("label_id", "23172059");

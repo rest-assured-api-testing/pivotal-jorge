@@ -57,7 +57,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test
-    public void ItShouldReturnNotFoundForInvalidEpicEndpoint() {
+    public void ItShouldReturnNotFoundForInvalidBlockerEndpoint() {
         apiRequest.setEndpoint("/projects/2505284/stories/178578861/bloqueado/{blocker_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("blocker_id", "2894869");
@@ -90,7 +90,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidBodyUpdateBlocker() {
+    public void shouldReturnBadRequestForInvalidBodyForUpdateBlocker() {
         apiRequest.setEndpoint("/projects/2505284/stories/178578861/blockers/{blocker_id}");
         apiRequest.addPathParam("blocker_id", "2893412");
         apiRequest.setBody("{\"description\":\"\"}");
@@ -102,7 +102,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test
-    public void shouldReturnNotFoundForInvalidEndPointUpdateBlocker() {
+    public void shouldReturnNotFoundForInvalidEndPointForUpdateBlocker() {
         apiRequest.setEndpoint("/projects/2505284/stories/178578861/bloquer/{blocker_id}");
         apiRequest.addPathParam("blocker_id", "2893412");
         apiRequest.setBody("{\"description\":\"updateBlocker\"}");
@@ -114,7 +114,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidBodyCreateBlocker() {
+    public void shouldReturnBadRequestForInvalidBodyForCreateBlocker() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/blockers");
         apiRequest.setBody("{\"description\":\"\",\"person_id\":3403373,\"resolved\":true}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -125,7 +125,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test
-    public void shouldReturnNotFoundForInvalidBlockerEndpoint() {
+    public void shouldReturnNotFoundForInvalidForCreateBlockerEndpoint() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/bloquer");
         apiRequest.setBody("{\"description\":\"new blocker\",\"person_id\":3403373,\"resolved\":true}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -136,7 +136,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test(groups = "DeleteABlocker")
-    public void deleteAEpic() {
+    public void deleteABlocker() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/blockers/{blocker_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("blocker_id", blocker.getId());
@@ -160,7 +160,7 @@ public class BlockersTest extends BlockersBases {
     }
 
     @Test
-    public void ShouldReturnNotFoundForIncorrectEpicEndpoint() {
+    public void ShouldReturnNotFoundForIncorrectBlockerEndpoint() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/bloquer/{blocker_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("blocker_id", "2893412");

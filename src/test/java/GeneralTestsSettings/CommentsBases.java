@@ -26,7 +26,7 @@ public class CommentsBases extends TestBases{
     }
 
     @BeforeMethod(onlyForGroups = "DeleteComment")
-    public void deleteLabelConfig() {
+    public void deleteCommentConfig() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments");
         apiRequest.setBody("{\"text\":\"I´m a comment\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -35,7 +35,7 @@ public class CommentsBases extends TestBases{
     }
 
     @BeforeMethod(onlyForGroups = "updateComment")
-    public void updateLabelName() {
+    public void updateCommentText() {
         apiRequest.setEndpoint("/projects/2510264/stories/178595534/comments/{comment_id}");
         apiRequest.addPathParam("comment_id", "225009376");
         apiRequest.setMethod(ApiMethod.PUT);
