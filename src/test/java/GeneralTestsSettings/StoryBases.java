@@ -11,14 +11,14 @@ public class StoryBases extends TestBases {
     public Story story;
 
     @BeforeMethod(onlyForGroups = "getAStory")
-    public void getAEpicConfig() {
+    public void getAStoryConfig() {
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("stories_id", "178578861");
     }
 
     @AfterMethod(onlyForGroups = "CreateAStory")
-    public void CleanCreatedEpic() {
+    public void CleanCreatedStory() {
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", story.getId());
@@ -27,7 +27,7 @@ public class StoryBases extends TestBases {
     }
 
     @BeforeMethod(onlyForGroups = "DeleteAStory")
-    public void deleteEpicsConfig() {
+    public void deleteStoryConfig() {
         apiRequest.setEndpoint("/projects/2505284/stories");
         apiRequest.setBody("{\"name\":\"ThisStoryWillBeDeleted\"}");
         apiRequest.setMethod(ApiMethod.POST);

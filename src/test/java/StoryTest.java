@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 public class StoryTest extends StoryBases {
 
     @Test
-    public void ItShouldGetAllEpicsOKStatusCode() {
+    public void ItShouldGetAllStoriesOKStatusCode() {
         apiRequest.setEndpoint("/projects/2505284/stories");
         apiRequest.setMethod(ApiMethod.GET);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -18,14 +18,14 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual, expected);
     }
     @Test(groups = "getAStory")
-    public void ItShouldVerifyEpicJsonSchema() {
+    public void ItShouldVerifyStoryJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Story story = apiResponse.getBody(Story.class);
         apiResponse.validateBodySchema("schemas/story.json");
 
     }
     @Test(groups = "getAStory")
-    public void ItShouldVerifyEpicName() {
+    public void ItShouldVerifyStoryName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Story story = apiResponse.getBody(Story.class);
         String expected = "history2";
@@ -33,7 +33,7 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual,expected);
     }
     @Test
-    public void ItShouldReturnBatRequestForInvalidEpicID() {
+    public void ItShouldReturnBatRequestForInvalidStoryID() {
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("stories_id", "abcd123");
@@ -43,7 +43,7 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual,expected);
     }
     @Test
-    public void ItShouldReturnNotFoundForInvalidEpicEndpoint() {
+    public void ItShouldReturnNotFoundForInvalidStoryEndpoint() {
         apiRequest.setEndpoint("/projects/2505284/estories/{stories_id}");
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("stories_id", "4790780");
@@ -53,7 +53,7 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual,expected);
     }
     @Test(groups = "CreateAStory")
-    public void CreateAEpic() {
+    public void CreateAStory() {
         apiRequest.setEndpoint("/projects/2505284/stories");
         apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -64,7 +64,7 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual,expected);
     }
     @Test
-    public void shouldReturnBadRequestForInvalidBody(){
+    public void shouldReturnBadRequestForInvalidStoryBody(){
         apiRequest.setEndpoint("/projects/2505284/stories");
         apiRequest.setBody("\"name\":\"CreatedEpic\"");
         apiRequest.setMethod(ApiMethod.POST);
@@ -74,7 +74,7 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual,expected);
     }
     @Test
-    public void shouldReturnNotFoundForInvalidEpicID(){
+    public void shouldReturnNotFoundForInvalidStoryID(){
         apiRequest.setEndpoint("/projects/2505284/estories");
         apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
@@ -85,7 +85,7 @@ public class StoryTest extends StoryBases {
     }
 
     @Test(groups = "DeleteAStory")
-    public void deleteAEpic(){
+    public void deleteAStory(){
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", story.getId());
@@ -97,7 +97,7 @@ public class StoryTest extends StoryBases {
     }
 
     @Test
-    public void ShouldReturnBadRequestForIncorrectEpicID(){
+    public void ShouldReturnBadRequestForIncorrectStoryID(){
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", "asdasdas");
@@ -108,7 +108,7 @@ public class StoryTest extends StoryBases {
         Assert.assertEquals(actual,expected);
     }
     @Test
-    public void ShouldReturnNotFoundForIncorrectEpicEndpoint(){
+    public void ShouldReturnNotFoundForIncorrectStoryEndpoint(){
         apiRequest.setEndpoint("/projects/2505284/estories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", "100");
