@@ -1,3 +1,5 @@
+package PivotalTests;
+
 import GeneralTestsSettings.CommentsBases;
 import api.ApiManager;
 import api.ApiMethod;

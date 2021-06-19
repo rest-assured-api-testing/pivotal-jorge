@@ -12,10 +12,10 @@ import io.cucumber.java.en.When;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 
-public class ProjectSteps {
-    public ApiRequest apiRequest = new ApiRequest();
+public class AccountSteps {
+    public  ApiRequest apiRequest = new ApiRequest();
     InfoManager infoManager = new InfoManager();
-    public ApiResponse apiResponse;
+    ApiResponse apiResponse;
 
     @Before
     public void setGeneralConfig() {
@@ -23,20 +23,20 @@ public class ProjectSteps {
         apiRequest.setBaseUri(infoManager.getConfig().getProperty("BASE_URI"));
     }
 
-    @Given("I build a {string} request")
-    public void iBuildARequest(String arg0) {
+    @Given("I build a {string} account request")
+    public void iBuildAAccountRequest(String arg0) {
         apiRequest.setMethod(ApiMethod.valueOf(arg0));
     }
 
-    @When("I execute a {string} request")
-    public void iExecuteARequest(String arg0) {
-        apiRequest.setEndpoint("/projects/{project_id}");
-        apiRequest.addPathParam("project_id", "2505284");
+    @When("I execute a Account endpoint request")
+    public void iExecuteAAccountEndpointRequest() {
+        apiRequest.setEndpoint("/accounts/{account_id}");
+        apiRequest.addPathParam("account_id", "1155196");
         apiResponse = ApiManager.execute(apiRequest);
     }
 
-    @Then("the response code status should be {string}")
-    public void theResponseCodeStatusShouldBe(String arg0) {
+    @Then("The Response status should be {string}")
+    public void theResponseStatusShouldBe(String arg0) {
         Assert.assertEquals(HttpStatus.SC_OK, apiResponse.getStatusCode());
     }
 }

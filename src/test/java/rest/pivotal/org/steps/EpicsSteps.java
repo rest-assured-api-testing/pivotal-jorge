@@ -13,7 +13,7 @@ import org.apache.http.HttpStatus;
 import org.testng.Assert;
 
 public class EpicsSteps {
-    public static ApiRequest apiRequest = new ApiRequest();
+    public ApiRequest apiRequest = new ApiRequest();
     InfoManager infoManager = new InfoManager();
     public ApiResponse apiResponse;
 

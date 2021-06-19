@@ -1,4 +1,4 @@
-/**
+package PivotalTests; /**
  * Copyright (c) 2021 Fundacion Jala.
  *
  * This software is the confidential and proprietary information of Fundacion Jala
@@ -9,91 +9,91 @@
  * @author Jorge Rodrigo Cáceres Velasco
  */
 
-import GeneralTestsSettings.LabelBases;
+import GeneralTestsSettings.EpicBases;
 import api.ApiManager;
 import api.ApiMethod;
 import api.ApiResponse;
-import entities.Label;
+import entities.Epic;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-public class LabelTest extends LabelBases {
+public class EpicsTest extends EpicBases {
+
     @Test
-    public void ItShouldGetAllLabelsOKStatusCode() {
-        apiRequest.setEndpoint("/projects/2505284/labels");
+    public void ItShouldGetAllEpicsOKStatusCode() {
+        apiRequest.setEndpoint("/projects/2505284/epics");
         apiRequest.setMethod(ApiMethod.GET);
-        apiRequest.addQueryParam("date_format", "millis");
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 200;
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(groups = "getALabel")
-    public void ItShouldVerifyLabelJsonSchema() {
+    @Test(groups = "getAEpic")
+    public void ItShouldVerifyEpicJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Label label = apiResponse.getBody(Label.class);
-        apiResponse.validateBodySchema("schemas/label.json");
+        Epic epic = apiResponse.getBody(Epic.class);
+        apiResponse.validateBodySchema("schemas/epic.json");
 
     }
 
-    @Test(groups = "getALabel")
-    public void ItShouldVerifyLabelName() {
+    @Test(groups = "getAEpic")
+    public void ItShouldVerifyEpicName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        Label label = apiResponse.getBody(Label.class);
-        String expected = "label test";
-        String actual = label.getName();
+        Epic epic = apiResponse.getBody(Epic.class);
+        String expected = "Test Epic";
+        String actual = epic.getName();
         Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void ItShouldReturnNotFoundForInvalidLabelID() {
-        apiRequest.setEndpoint("projects/2505284/labels/{label_id}");
+    public void ItShouldReturnBatRequestForInvalidEpicID() {
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setMethod(ApiMethod.GET);
-        apiRequest.addPathParam("label_id", "abcd123");
+        apiRequest.addPathParam("epic_id", "abcd123");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 400;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void ItShouldReturnNotFoundForInvalidEpicEndpoint() {
+        apiRequest.setEndpoint("/projects/2505284/pics/{epic_id}");
+        apiRequest.setMethod(ApiMethod.GET);
+        apiRequest.addPathParam("epic_id", "4790780");
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
 
-    @Test
-    public void ItShouldReturnNotFoundForInvalidLabelEndpoint() {
-        apiRequest.setEndpoint("projects/2505284/labeles/{label_id}");
-        apiRequest.setMethod(ApiMethod.GET);
-        apiRequest.addPathParam("label_id", "23172059");
-        ApiResponse apiResponse = ApiManager.execute(apiRequest);
-        int expected = 404;
-        int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual, expected);
-    }
-
-    @Test(groups = "CreateLabel")
-    public void CreateALabel() {
-        apiRequest.setEndpoint("projects/2505284/labels");
-        apiRequest.setBody("{\"name\":\"labelcreated\"}");
+    @Test(groups = "CreateAEpic")
+    public void CreateAEpic() {
+        apiRequest.setEndpoint("/projects/2505284/epics");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
-        label = apiResponse.getBody(Label.class);
-        String expected = "labelcreated";
-        String actual = label.getName();
+        epic = apiResponse.getBody(Epic.class);
+        String expected = "CreatedEpic";
+        String actual = epic.getName();
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(groups = "updateLabel")
-    public void UpdateALabel() {
-        apiRequest.setBody("{\"name\":\"updatedlabel\"}");
+    @Test(groups = "updateAEpic")
+    public void UpdateAEpic() {
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
-        label = apiResponse.getBody(Label.class);
-        String expected = "updatedlabel";
-        String actual = label.getName();
+        epic = apiResponse.getBody(Epic.class);
+        String expected = "CreatedEpic";
+        String actual = epic.getName();
         Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidBodyUpdateLabel() {
-        apiRequest.setEndpoint("projects/2505284/labels/{label_id}");
-        apiRequest.addPathParam("label_id", "23172057");
+    public void shouldReturnBadRequestForInvalidBodyUpdateEpic() {
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
+        apiRequest.addPathParam("epic_id", "4791804");
         apiRequest.setBody("{\"name\":\"\"}");
         apiRequest.setMethod(ApiMethod.PUT);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
@@ -103,10 +103,10 @@ public class LabelTest extends LabelBases {
     }
 
     @Test
-    public void shouldReturnNotFoundForInvalidBodyUpdateLabel() {
-        apiRequest.setEndpoint("projects/2505284/labeles/{label_id}");
-        apiRequest.addPathParam("label_id", "23172057");
-        apiRequest.setBody("{\"name\":\"label007\"}");
+    public void shouldReturnNotFoundForInvalidBodyUpdateEpic() {
+        apiRequest.setEndpoint("/projects/2505284/epicos/{epic_id}");
+        apiRequest.addPathParam("epic_id", "4791804");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.PUT);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         int expected = 404;
@@ -115,32 +115,32 @@ public class LabelTest extends LabelBases {
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidBodyCreateLabel() {
-        apiRequest.setEndpoint("projects/2505284/labels");
-        apiRequest.setBody("{\"name\":\"\"}");
+    public void shouldReturnBadRequestForInvalidBody() {
+        apiRequest.setEndpoint("/projects/2505284/epics");
+        apiRequest.setBody("\"name\":\"CreatedEpic\"");
         apiRequest.setMethod(ApiMethod.POST);
-        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 400;
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void shouldReturnNotFoundForInvalidLabelEndpoint() {
-        apiRequest.setEndpoint("projects/2505284/labeles");
-        apiRequest.setBody("{\"name\":\"label007\"}");
+    public void shouldReturnNotFoundForInvalidEpicID() {
+        apiRequest.setEndpoint("/projects/2505284/pics");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
-        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
 
-    @Test(groups = "DeleteLabel")
-    public void deleteALabel() {
-        apiRequest.setEndpoint("projects/2505284/labels/{label_id}");
+    @Test(groups = "DeleteAEpic")
+    public void deleteAEpic() {
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setBody("");
-        apiRequest.addPathParam("label_id", label.getId());
+        apiRequest.addPathParam("epic_id", epic.getId());
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 204;
@@ -149,10 +149,10 @@ public class LabelTest extends LabelBases {
     }
 
     @Test
-    public void ShouldReturnBadRequestForIncorrectLabelID() {
-        apiRequest.setEndpoint("projects/2505284/labels/{label_id}");
+    public void ShouldReturnBadRequestForIncorrectEpicID() {
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
         apiRequest.setBody("");
-        apiRequest.addPathParam("label_id", "asdasdas");
+        apiRequest.addPathParam("epic_id", "asdasdas");
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 400;
@@ -161,10 +161,10 @@ public class LabelTest extends LabelBases {
     }
 
     @Test
-    public void ShouldReturnNotFoundForIncorrectLabelEndpoint() {
-        apiRequest.setEndpoint("projects/2505284/labeles/{label_id}");
+    public void ShouldReturnNotFoundForIncorrectEpicEndpoint() {
+        apiRequest.setEndpoint("/projects/2505284/epiks/{epic_id}");
         apiRequest.setBody("");
-        apiRequest.addPathParam("label_id", "23172057");
+        apiRequest.addPathParam("epic_id", "100");
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
