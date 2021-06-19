@@ -1,6 +1,6 @@
+import GeneralTestsSettings.WorkSpacesBases;
 import api.ApiManager;
 import api.ApiMethod;
-import api.ApiRequest;
 import api.ApiResponse;
 import entities.WorkSpaces;
 import org.testng.Assert;

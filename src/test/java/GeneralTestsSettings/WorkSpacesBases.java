@@ -1,3 +1,5 @@
+package GeneralTestsSettings;
+
 import api.ApiManager;
 import api.ApiMethod;
 import api.ApiResponse;

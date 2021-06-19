@@ -1,12 +1,12 @@
+import GeneralTestsSettings.EpicBases;
 import api.ApiManager;
 import api.ApiMethod;
-import api.ApiRequest;
 import api.ApiResponse;
 import entities.Epic;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class Epics extends EpicBases{
+public class EpicsTest extends EpicBases {
 
     @Test
     public void ItShouldGetAllEpicsOKStatusCode() {

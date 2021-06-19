@@ -1,12 +1,12 @@
+import GeneralTestsSettings.ProjectBases;
 import api.ApiManager;
 import api.ApiMethod;
-import api.ApiRequest;
 import api.ApiResponse;
 import entities.Project;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class Projects extends ProjectBases{
+public class ProjectsTest extends ProjectBases {
 
     @Test
     public void ItShouldGetAllProjectOKStatusCode() {
