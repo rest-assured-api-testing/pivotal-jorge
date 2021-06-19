@@ -1,0 +1,54 @@
+/**
+ * Copyright (c) 2021 Fundacion Jala.
+ *
+ * This software is the confidential and proprietary information of Fundacion Jala
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Fundacion Jala
+ *
+ * @author Jorge Rodrigo Cáceres Velasco
+ */
+package GeneralTestsSettings;
+
+import api.ApiManager;
+import api.ApiMethod;
+import api.ApiResponse;
+import entities.WorkSpaces;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+public class WorkSpacesBases extends TestBases {
+
+    public WorkSpaces workSpaces;
+
+    @BeforeMethod(onlyForGroups = "getAWorkSpace")
+    public void getAWorkSpaceConfig() {
+        apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
+        apiRequest.setMethod(ApiMethod.GET);
+        apiRequest.addPathParam("workspace_id", "876161");
+    }
+
+    @AfterMethod(onlyForGroups = "CreateAWorkSpace")
+    public void CleanCreatedWorkSpace() {
+        apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
+        apiRequest.setBody("");
+        apiRequest.addPathParam("workspace_id", workSpaces.getId());
+        apiRequest.setMethod(ApiMethod.DELETE);
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+    }
+
+    @BeforeMethod(onlyForGroups = "DeleteAWorkSpace")
+    public void deleteWorkSpaceConfig() {
+        apiRequest.setEndpoint("/my/workspaces");
+        apiRequest.setBody("{\"name\":\"WorkSpaceToBeDeleted\",\"project_ids\":[2505284]}");
+        apiRequest.setMethod(ApiMethod.POST);
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        workSpaces = apiResponse.getBody(WorkSpaces.class);
+    }
+
+    @AfterMethod
+    public void CleanObjects() {
+        workSpaces = new WorkSpaces();
+        apiRequest.clearPathParms();
+    }
+}
