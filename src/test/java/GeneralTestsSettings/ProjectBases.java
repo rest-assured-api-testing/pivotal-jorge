@@ -16,6 +16,12 @@ public class ProjectBases extends TestBases{
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("project_id", "2505284");
     }
+    @BeforeMethod(onlyForGroups = "updateAProject")
+    public void updateAProjectName() {
+        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        apiRequest.addPathParam("project_id", "2504485");
+    }
     @AfterMethod(onlyForGroups = "CreateAProject")
     public void CleanCreatedProject() {
         apiRequest.setEndpoint("/projects/{project_id}");

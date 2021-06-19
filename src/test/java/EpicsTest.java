@@ -63,6 +63,37 @@ public class EpicsTest extends EpicBases {
         String actual = epic.getName();
         Assert.assertEquals(actual,expected);
     }
+    @Test(groups = "updateAEpic")
+    public void UpdateAEpic() {
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        epic = apiResponse.getBody(Epic.class);
+        String expected = "CreatedEpic";
+        String actual = epic.getName();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnBadRequestForInvalidBodyUpdateEpic(){
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
+        apiRequest.addPathParam("epic_id","4791804");
+        apiRequest.setBody("{\"name\":\"\"}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        int expected = 400;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnNotFoundForInvalidBodyUpdateEpic(){
+        apiRequest.setEndpoint("/projects/2505284/epicos/{epic_id}");
+        apiRequest.addPathParam("epic_id","4791804");
+        apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
     @Test
     public void shouldReturnBadRequestForInvalidBody(){
         apiRequest.setEndpoint("/projects/2505284/epics");

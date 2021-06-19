@@ -62,6 +62,37 @@ public class ProjectsTest extends ProjectBases {
         String actual = project.getName();
         Assert.assertEquals(actual,expected);
     }
+    @Test(groups = "updateAProject")
+    public void updateAProject() {
+        apiRequest.setBody("{\"name\":\"updatedProjectName\"}");
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        project = apiResponse.getBody(Project.class);
+        String expected = "updatedProjectName";
+        String actual = project.getName();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnBadRequestForInvalidProjectUpdateBody(){
+        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        apiRequest.addPathParam("project_id", "2504485");
+        apiRequest.setBody("\"name\":\"CreatedProject\"");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 400;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnNotFoundForInvalidProjectUpdateBody(){
+        apiRequest.setEndpoint("/projectos/{project_id}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        apiRequest.addPathParam("project_id", "2504485");
+        apiRequest.setBody("{\"name\":\"CreatedProject\"}");
+        ApiResponse apiResponse = ApiManager.execute(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
     @Test
     public void shouldReturnBadRequestForInvalidProjectBody(){
         apiRequest.setEndpoint("/projects");

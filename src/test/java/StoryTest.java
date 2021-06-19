@@ -28,8 +28,39 @@ public class StoryTest extends StoryBases {
     public void ItShouldVerifyStoryName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Story story = apiResponse.getBody(Story.class);
-        String expected = "history2";
+        String expected = "CreatedStory";
         String actual = story.getName();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test(groups = "updateAStory")
+    public void UpdateAEpic() {
+        apiRequest.setBody("{\"name\":\"CreatedStory\"}");
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        story = apiResponse.getBody(Story.class);
+        String expected = "CreatedStory";
+        String actual = story.getName();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnBadRequestForInvalidBodyUpdateStory(){
+        apiRequest.setEndpoint("/projects/2505284/stories/{story_id}");
+        apiRequest.addPathParam("story_id","178578861");
+        apiRequest.setBody("{\"name\":\"\"}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        int expected = 400;
+        int actual = apiResponse.getStatusCode();
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void shouldReturnNotFoundForInvalidBodyUpdateStory(){
+        apiRequest.setEndpoint("/projects/2505284/estories/{story_id}");
+        apiRequest.addPathParam("story_id","178578861");
+        apiRequest.setBody("{\"name\":\"CreatedStory\"}");
+        apiRequest.setMethod(ApiMethod.PUT);
+        ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
+        int expected = 404;
+        int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual,expected);
     }
     @Test

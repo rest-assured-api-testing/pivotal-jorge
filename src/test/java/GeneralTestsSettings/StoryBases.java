@@ -34,6 +34,13 @@ public class StoryBases extends TestBases {
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         story = apiResponse.getBody(Story.class);
     }
+    @BeforeMethod(onlyForGroups = "updateAStory")
+    public void updateStoryName() {
+        apiRequest.setEndpoint("/projects/2505284/stories/{story_id}");
+        apiRequest.addPathParam("story_id","178578861");
+        apiRequest.setMethod(ApiMethod.PUT);
+
+    }
 
     @AfterMethod
     public void CleanObjects() {

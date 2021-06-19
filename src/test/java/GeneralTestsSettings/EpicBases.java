@@ -25,7 +25,6 @@ public class EpicBases extends TestBases{
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
     }
-
     @BeforeMethod(onlyForGroups = "DeleteAEpic")
     public void deleteEpicsConfig() {
         apiRequest.setEndpoint("/projects/2505284/epics");
@@ -33,6 +32,13 @@ public class EpicBases extends TestBases{
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         epic = apiResponse.getBody(Epic.class);
+    }
+    @BeforeMethod(onlyForGroups = "updateAEpic")
+    public void updateEpicName() {
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
+        apiRequest.addPathParam("epic_id","4791804");
+        apiRequest.setMethod(ApiMethod.PUT);
+
     }
     @AfterMethod
     public void CleanObjects(){
