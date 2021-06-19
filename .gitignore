@@ -28,3 +28,4 @@ gradlew
 gradlew.bat
 settings.gradle
 .idea/
+config.properties
