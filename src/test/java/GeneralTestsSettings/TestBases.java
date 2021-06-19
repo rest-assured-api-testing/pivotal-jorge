@@ -12,5 +12,4 @@ public class TestBases {
         apiRequest.addHeader("X-TrackerToken", infoManager.getConfig().getProperty("TOKEN"));
         apiRequest.setBaseUri(infoManager.getConfig().getProperty("BASE_URI"));
     }
-
 }

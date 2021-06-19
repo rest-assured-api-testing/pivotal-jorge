@@ -1,12 +1,40 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Account {
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String kind;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String id;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String name;
-    private String status;
-    private String days_left;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String plan;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private String status;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private String days_left;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private String created_at;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private String updated_at;
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
 
     public String getKind() {
         return kind;
