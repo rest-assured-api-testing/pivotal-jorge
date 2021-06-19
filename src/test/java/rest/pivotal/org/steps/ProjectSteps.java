@@ -39,4 +39,21 @@ public class ProjectSteps {
     public void theResponseCodeStatusShouldBe(String arg0) {
         Assert.assertEquals(HttpStatus.SC_OK, apiResponse.getStatusCode());
     }
+
+    @Given("I build a {string} project request with invalid ID")
+    public void iBuildAProjectRequestWithInvalidID(String arg0) {
+        apiRequest.setMethod(ApiMethod.valueOf(arg0));
+    }
+
+    @When("I execute an project end point request")
+    public void iExecuteAnProjectEndPointRequest() {
+        apiRequest.setEndpoint("/projects/{project_id}");
+        apiRequest.addPathParam("project_id", "abcd123");
+        apiResponse = ApiManager.execute(apiRequest);
+    }
+
+    @Then("The project response should be {string}")
+    public void theProjectResponseShouldBe(String arg0) {
+        Assert.assertEquals(HttpStatus.SC_NOT_FOUND, apiResponse.getStatusCode());
+    }
 }

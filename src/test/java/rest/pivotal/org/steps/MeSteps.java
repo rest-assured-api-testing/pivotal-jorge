@@ -40,4 +40,20 @@ public class MeSteps {
         Assert.assertEquals(HttpStatus.SC_OK, apiResponse.getStatusCode());
     }
 
+    @Given("I build a {string} login request with invalid password")
+    public void iBuildALoginRequestWithInvalidPassword(String arg0) {
+        apiRequest.setMethod(ApiMethod.valueOf(arg0));
+    }
+
+    @When("I execute a login end point request")
+    public void iExecuteALoginEndPointRequest() {
+        apiRequest.setUserName(infoManager.getConfig().getProperty("USER"));
+        apiRequest.setPassword(infoManager.getConfig().getProperty("INVALID_PASSWORD"));
+        apiResponse = ApiManager.executeWithUserPassword(apiRequest);
+    }
+
+    @Then("The login response should be {string}")
+    public void theLoginResponseShouldBe(String arg0) {
+        Assert.assertEquals(HttpStatus.SC_FORBIDDEN, apiResponse.getStatusCode());
+    }
 }

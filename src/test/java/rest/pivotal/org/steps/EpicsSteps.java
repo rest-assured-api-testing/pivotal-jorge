@@ -39,4 +39,21 @@ public class EpicsSteps {
     public void theResponseStatusCodeShouldBe(String arg0) {
         Assert.assertEquals(HttpStatus.SC_OK, apiResponse.getStatusCode());
     }
+
+    @Given("I build a {string} epic request with invalid ID")
+    public void iBuildAEpicRequestWithInvalidID(String arg0) {
+        apiRequest.setMethod(ApiMethod.valueOf(arg0));
+    }
+
+    @When("I execute an epic end point request")
+    public void iExecuteAnEpicEndPointRequest() {
+        apiRequest.setEndpoint("/projects/2505284/epics/{epic_id}");
+        apiRequest.addPathParam("epic_id", "abcd1234");
+        apiResponse = ApiManager.execute(apiRequest);
+    }
+
+    @Then("The epic response should be {string}")
+    public void theEpicResponseShouldBe(String arg0) {
+        Assert.assertEquals(HttpStatus.SC_BAD_REQUEST, apiResponse.getStatusCode());
+    }
 }

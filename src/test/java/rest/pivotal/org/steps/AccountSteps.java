@@ -39,4 +39,21 @@ public class AccountSteps {
     public void theResponseStatusShouldBe(String arg0) {
         Assert.assertEquals(HttpStatus.SC_OK, apiResponse.getStatusCode());
     }
+
+    @Given("I build a {string} account request with invalid ID")
+    public void iBuildAAccountRequestWithInvalidID(String arg0) {
+        apiRequest.setMethod(ApiMethod.valueOf(arg0));
+    }
+
+    @When("I execute an account end point request")
+    public void iExecuteAnAccountEndPointRequest() {
+        apiRequest.setEndpoint("/accounts/{account_id}");
+        apiRequest.addPathParam("account_id", "abc123");
+        apiResponse = ApiManager.execute(apiRequest);
+    }
+
+    @Then("The response should be {string}")
+    public void theResponseShouldBe(String arg0) {
+        Assert.assertEquals(HttpStatus.SC_NOT_FOUND, apiResponse.getStatusCode());
+    }
 }
