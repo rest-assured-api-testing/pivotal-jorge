@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2021 Fundacion Jala.
+ *
+ * This software is the confidential and proprietary information of Fundacion Jala
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Fundacion Jala
+ *
+ * @author Jorge Rodrigo Cáceres Velasco
+ */
 package GeneralTestsSettings;
 
 import api.ApiManager;
@@ -34,10 +44,11 @@ public class StoryBases extends TestBases {
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         story = apiResponse.getBody(Story.class);
     }
+
     @BeforeMethod(onlyForGroups = "updateAStory")
     public void updateStoryName() {
         apiRequest.setEndpoint("/projects/2505284/stories/{story_id}");
-        apiRequest.addPathParam("story_id","178578861");
+        apiRequest.addPathParam("story_id", "178578861");
         apiRequest.setMethod(ApiMethod.PUT);
 
     }

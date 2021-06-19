@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2021 Fundacion Jala.
+ *
+ * This software is the confidential and proprietary information of Fundacion Jala
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Fundacion Jala
+ *
+ * @author Jorge Rodrigo Cáceres Velasco
+ */
 package GeneralTestsSettings;
 
 import api.ApiManager;
@@ -7,7 +17,7 @@ import entities.Blocker;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public class BlockersBases extends TestBases{
+public class BlockersBases extends TestBases {
     public Blocker blocker;
 
     @BeforeMethod(onlyForGroups = "getABlocker")
@@ -16,6 +26,7 @@ public class BlockersBases extends TestBases{
         apiRequest.setMethod(ApiMethod.GET);
         apiRequest.addPathParam("blocker_id", "2894869");
     }
+
     @AfterMethod(onlyForGroups = "CreateABlocker")
     public void CleanCreatedBlocker() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/blockers/{blocker_id}");
@@ -24,6 +35,7 @@ public class BlockersBases extends TestBases{
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
     }
+
     @BeforeMethod(onlyForGroups = "DeleteABlocker")
     public void deleteBlockersConfig() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/blockers");
@@ -32,15 +44,17 @@ public class BlockersBases extends TestBases{
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         blocker = apiResponse.getBody(Blocker.class);
     }
+
     @BeforeMethod(onlyForGroups = "updateABlocker")
     public void updateBlockerName() {
         apiRequest.setEndpoint("projects/2505284/stories/178578861/blockers/{blocker_id}");
-        apiRequest.addPathParam("blocker_id","2893412");
+        apiRequest.addPathParam("blocker_id", "2893412");
         apiRequest.setMethod(ApiMethod.PUT);
 
     }
+
     @AfterMethod
-    public void CleanObjects(){
+    public void CleanObjects() {
         blocker = new Blocker();
         apiRequest.clearPathParms();
     }

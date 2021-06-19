@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2021 Fundacion Jala.
+ *
+ * This software is the confidential and proprietary information of Fundacion Jala
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Fundacion Jala
+ *
+ * @author Jorge Rodrigo Cáceres Velasco
+ */
+
 import GeneralTestsSettings.WorkSpacesBases;
 import api.ApiManager;
 import api.ApiMethod;
@@ -17,6 +28,7 @@ public class WorkSpacesTest extends WorkSpacesBases {
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
+
     @Test
     public void ItShouldReturnNotFoundForInvalidWorkSpaceID() {
         apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
@@ -25,8 +37,9 @@ public class WorkSpacesTest extends WorkSpacesBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
     public void ItShouldReturnNotFoundForInvalidWorkSpaceEndpoint() {
         apiRequest.setEndpoint("/my/workespaces/{workspace_id}");
@@ -35,22 +48,25 @@ public class WorkSpacesTest extends WorkSpacesBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test(groups = "getAWorkSpace")
     public void ItShouldVerifyWorkSpaceJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         WorkSpaces workSpaces = apiResponse.getBody(WorkSpaces.class);
         apiResponse.validateBodySchema("schemas/workspace.json");
     }
+
     @Test(groups = "getAWorkSpace")
     public void ItShouldVerifyWorkSpaceName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         WorkSpaces workSpaces = apiResponse.getBody(WorkSpaces.class);
         String expected = "A new workspace";
         String actual = workSpaces.getName();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test(groups = "CreateAWorkSpace")
     public void CreateAWorkSpace() {
         apiRequest.setEndpoint("/my/workspaces");
@@ -60,43 +76,45 @@ public class WorkSpacesTest extends WorkSpacesBases {
         workSpaces = apiResponse.getBody(WorkSpaces.class);
         String expected = "WorkSpaceCreated";
         String actual = workSpaces.getName();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void shouldReturnBadRequestForInvalidWorkSpaceBody(){
+    public void shouldReturnBadRequestForInvalidWorkSpaceBody() {
         apiRequest.setEndpoint("/my/workspaces");
         apiRequest.setBody("\"name\":\"CreatedEpic\"");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 400;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void shouldReturnNotFoundForInvalidWorkSpaceEndPoint(){
+    public void shouldReturnNotFoundForInvalidWorkSpaceEndPoint() {
         apiRequest.setEndpoint("/my/workespaces");
         apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test(groups = "DeleteAWorkSpace")
-    public void deleteAProject(){
+    public void deleteAProject() {
         apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
         apiRequest.setBody("");
-        apiRequest.addPathParam("workspace_id",workSpaces.getId());
+        apiRequest.addPathParam("workspace_id", workSpaces.getId());
         apiRequest.setMethod(ApiMethod.DELETE);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 204;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void ShouldReturnNotFoundForIncorrectEpicID(){
+    public void ShouldReturnNotFoundForIncorrectEpicID() {
         apiRequest.setEndpoint("/my/workspaces/{workspace_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("workspace_id", "asdasdas");
@@ -104,10 +122,11 @@ public class WorkSpacesTest extends WorkSpacesBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void ShouldReturnNotFoundForIncorrectWorkSpaceEndpoint(){
+    public void ShouldReturnNotFoundForIncorrectWorkSpaceEndpoint() {
         apiRequest.setEndpoint("/my/workespaces/{workspace_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("workspace_id", "100");
@@ -115,6 +134,6 @@ public class WorkSpacesTest extends WorkSpacesBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 }

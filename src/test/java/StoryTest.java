@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2021 Fundacion Jala.
+ *
+ * This software is the confidential and proprietary information of Fundacion Jala
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with Fundacion Jala
+ *
+ * @author Jorge Rodrigo Cáceres Velasco
+ */
+
 import GeneralTestsSettings.StoryBases;
 import api.ApiManager;
 import api.ApiMethod;
@@ -17,6 +28,7 @@ public class StoryTest extends StoryBases {
         int actual = apiResponse.getStatusCode();
         Assert.assertEquals(actual, expected);
     }
+
     @Test(groups = "getAStory")
     public void ItShouldVerifyStoryJsonSchema() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
@@ -24,14 +36,16 @@ public class StoryTest extends StoryBases {
         apiResponse.validateBodySchema("schemas/story.json");
 
     }
+
     @Test(groups = "getAStory")
     public void ItShouldVerifyStoryName() {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         Story story = apiResponse.getBody(Story.class);
         String expected = "CreatedStory";
         String actual = story.getName();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test(groups = "updateAStory")
     public void UpdateAEpic() {
         apiRequest.setBody("{\"name\":\"CreatedStory\"}");
@@ -39,30 +53,33 @@ public class StoryTest extends StoryBases {
         story = apiResponse.getBody(Story.class);
         String expected = "CreatedStory";
         String actual = story.getName();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void shouldReturnBadRequestForInvalidBodyUpdateStory(){
+    public void shouldReturnBadRequestForInvalidBodyUpdateStory() {
         apiRequest.setEndpoint("/projects/2505284/stories/{story_id}");
-        apiRequest.addPathParam("story_id","178578861");
+        apiRequest.addPathParam("story_id", "178578861");
         apiRequest.setBody("{\"name\":\"\"}");
         apiRequest.setMethod(ApiMethod.PUT);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         int expected = 400;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void shouldReturnNotFoundForInvalidBodyUpdateStory(){
+    public void shouldReturnNotFoundForInvalidBodyUpdateStory() {
         apiRequest.setEndpoint("/projects/2505284/estories/{story_id}");
-        apiRequest.addPathParam("story_id","178578861");
+        apiRequest.addPathParam("story_id", "178578861");
         apiRequest.setBody("{\"name\":\"CreatedStory\"}");
         apiRequest.setMethod(ApiMethod.PUT);
         ApiResponse apiResponse = ApiManager.executeWithBody(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
     public void ItShouldReturnBatRequestForInvalidStoryID() {
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
@@ -71,8 +88,9 @@ public class StoryTest extends StoryBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 400;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
     public void ItShouldReturnNotFoundForInvalidStoryEndpoint() {
         apiRequest.setEndpoint("/projects/2505284/estories/{stories_id}");
@@ -81,8 +99,9 @@ public class StoryTest extends StoryBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test(groups = "CreateAStory")
     public void CreateAStory() {
         apiRequest.setEndpoint("/projects/2505284/stories");
@@ -92,31 +111,33 @@ public class StoryTest extends StoryBases {
         story = apiResponse.getBody(Story.class);
         String expected = "CreatedEpic";
         String actual = story.getName();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void shouldReturnBadRequestForInvalidStoryBody(){
+    public void shouldReturnBadRequestForInvalidStoryBody() {
         apiRequest.setEndpoint("/projects/2505284/stories");
         apiRequest.setBody("\"name\":\"CreatedEpic\"");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 400;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void shouldReturnNotFoundForInvalidStoryID(){
+    public void shouldReturnNotFoundForInvalidStoryID() {
         apiRequest.setEndpoint("/projects/2505284/estories");
         apiRequest.setBody("{\"name\":\"CreatedEpic\"}");
         apiRequest.setMethod(ApiMethod.POST);
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test(groups = "DeleteAStory")
-    public void deleteAStory(){
+    public void deleteAStory() {
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", story.getId());
@@ -124,11 +145,11 @@ public class StoryTest extends StoryBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 204;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test
-    public void ShouldReturnBadRequestForIncorrectStoryID(){
+    public void ShouldReturnBadRequestForIncorrectStoryID() {
         apiRequest.setEndpoint("/projects/2505284/stories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", "asdasdas");
@@ -136,10 +157,11 @@ public class StoryTest extends StoryBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 400;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
+
     @Test
-    public void ShouldReturnNotFoundForIncorrectStoryEndpoint(){
+    public void ShouldReturnNotFoundForIncorrectStoryEndpoint() {
         apiRequest.setEndpoint("/projects/2505284/estories/{stories_id}");
         apiRequest.setBody("");
         apiRequest.addPathParam("stories_id", "100");
@@ -147,6 +169,6 @@ public class StoryTest extends StoryBases {
         ApiResponse apiResponse = ApiManager.execute(apiRequest);
         int expected = 404;
         int actual = apiResponse.getStatusCode();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 }
